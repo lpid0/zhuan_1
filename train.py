@@ -14,6 +14,31 @@ from utils.dataloader import SiameseDataset, dataset_collate
 from utils.utils import (download_weights, get_lr_scheduler, load_dataset,
                          set_optimizer_lr, show_config)
 from utils.utils_fit import fit_one_epoch
+import argparse
+
+# 创建解析器
+parser = argparse.ArgumentParser(description='Process some strings.')
+
+# 添加参数
+parser.add_argument('--Epoch', type=int, help='a string to process')
+parser.add_argument('--dataset_path', type=str, help='a string to process')
+parser.add_argument('--model_path', type=str, help='a string to process')
+
+args = parser.parse_args()
+
+if args.Epoch:
+    Epoch = args.Epoch
+else:
+    Epoch = 100
+if args.dataset_path:
+    dataset_path = args.dataset_path
+else:
+    dataset_path = "/gemini/data-1"
+if args.model_path:
+    model_path = args.model_path
+else:
+    model_path = "/gemini/pretrain/model.pth"
+
 
 if __name__ == "__main__":
     #----------------------------------------------------#
@@ -45,7 +70,7 @@ if __name__ == "__main__":
     #----------------------------------------------------#
     #   数据集存放的路径
     #----------------------------------------------------#
-    dataset_path    = "/gemini/data-1"
+    dataset_path    = dataset_path
     #----------------------------------------------------#
     #   输入图像的大小，默认为105,105,3
     #----------------------------------------------------#
@@ -84,7 +109,7 @@ if __name__ == "__main__":
     #   网络一般不从0开始训练，至少会使用主干部分的权值，有些论文提到可以不用预训练，主要原因是他们 数据集较大 且 调参能力优秀。
     #   如果一定要训练网络的主干部分，可以了解imagenet数据集，首先训练分类模型，分类模型的 主干部分 和该模型通用，基于此进行训练。
     #----------------------------------------------------------------------------------------------------------------------------#
-    model_path      = "/gemini/pretrain/model.pth"
+    model_path      = model_path
 
     #----------------------------------------------------------------------------------------------------------------------------#
     #   显存不足与数据集大小无关，提示显存不足请调小batch_size。
@@ -109,7 +134,7 @@ if __name__ == "__main__":
     #   batch_size      每次输入的图片数量
     #------------------------------------------------------#
     Init_Epoch          = 0
-    Epoch               = 100
+    Epoch               = Epoch
     batch_size          = 32
     
     #------------------------------------------------------------------#
@@ -141,7 +166,7 @@ if __name__ == "__main__":
     #------------------------------------------------------------------#
     #   save_period     多少个epoch保存一次权值
     #------------------------------------------------------------------#
-    save_period         = 100
+    save_period         = 10
     #------------------------------------------------------------------#
     #   save_dir        权值与日志文件保存的文件夹
     #------------------------------------------------------------------#
